@@ -71,8 +71,7 @@ acf(a)
 pacf(a)
 par(mfrow=c(1,1))
 
-
-
+#prova
 
 
 
