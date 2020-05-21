@@ -1,3 +1,48 @@
+# MSF 2020, Homework n. 3
+# Data loading
+
+
+# :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+# Load the dataset 
+data.indeces <- read.csv("International_Indexes_CSV.csv", sep = ";", dec = ",", header = TRUE, stringsAsFactors = FALSE)
+dates        <- as.Date(data.indeces$Date, format = "%d/%m/%Y")
+n            <- nrow(data.indeces)
+p            <- ncol(data.indeces)
+indeces      <- data.indeces[,2:p]
+head(date)
+head(indeces)
+
+# :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+# Build the dataset 
+StockInd <- data.frame(
+  day    = dates[-1], 
+  indeces[-1,],
+  log(indeces)[-1,],
+  log(indeces[2:n,]) - log(indeces[1:(n-1),])
+)
+
+# :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+# Build the dataset of log-returns
+StockIndLogRet <- data.frame(
+  day = dates[-1], 
+  log(indeces[2:n,]) - log(indeces[1:(n-1),])
+)
+
+# :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+# Build the dataset of log-returns (percentage)
+StockIndLogRet100 <- data.frame(
+  day = dates[-1], 
+  (log(indeces[2:n,]) - log(indeces[1:(n-1),])) * 100
+)
+
+# :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::  
+# Save in RData format
+save(StockInd, file = "InternStockInd.RData")
+save(StockIndLogRet, file = "InternStockIndLogRet.RData")
+save(StockIndLogRet100, file = "InternStockIndLogRet100.RData")
+
+
+
 ### ESERCIZIO 4                      ###
 ### METODI STATISTICI PER LA FINANZA ###
 ### GRUPPO 8                         ###
