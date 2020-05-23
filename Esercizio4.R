@@ -57,8 +57,8 @@ sk <- mean(jap.data$lret^3)/(sd(jap.data$lret))^3;sk
 #indice di asimmetria empirico, nei rendimenti sembra esserci una leggera asimmetria a sinistra
 k <- mean(jap.data$lret^4)/(var(jap.data$lret))^2;k
 #indice di curtosi, è >3 dunque le code di questa distribuzione sono più pesanti di quelle della normale
-ggAcf(jap.data$lret,type = c("correlation"), lag.max = 100) +labs(title = "ACF dei prezzi logaritmici JAPDOWA", x = "lag", y = "ACF")
-ggPacf(jap.data$lret, lag.max = 100) + labs(title = "PACF dei prezzi logaritmici JAPDOWA", x = "lag", y = "PACF")
+ggAcf(jap.data$lret,type = c("correlation"), lag.max = 100) +labs(title = "ACF dei rendimenti logaritmici JAPDOWA", x = "lag", y = "ACF")
+ggPacf(jap.data$lret, lag.max = 100) + labs(title = "PACF dei rendimenti logaritmici JAPDOWA", x = "lag", y = "PACF")
 #dalle funzioni di ACF e PACF si notano parecche autocorrelazioni significative che si protraggono nel tempo fino a lag piuttosto lontani
 auto.arima(jap.data$lret)
 #proviamo ad adattare un modello ARMA(1,1) sui rendimenti logaritmici, che quindi sono già stai differenziati una volta (ARIMA(1,1,1) per jap.data$value)
@@ -67,28 +67,16 @@ coeftest(model1)
 
 ###QUA NON SAPEVO BENE SE USARE AUTO.ARIMA PERò SENZA NON CI SAREI MAI ARRIVATA, LE AUTOCORR SIGNIFICATIVE SONO TROPPO IN Là NEL TEMPO PER PROCEDERE "CONTANDO LE SBARRETTE" E CMQ PRESI DA SOLI I COEF NON SONO MAI SIGNIFICATIVI...
 
-ggAcf(residuals(model1),type = c("correlation"), lag.max = 100) +labs(title = "ACF dei prezzi logaritmici JAPDOWA", x = "lag", y = "ACF")
-ggPacf(residuals(model1), lag.max = 100) + labs(title = "PACF dei prezzi logaritmici JAPDOWA", x = "lag", y = "PACF")
+ggAcf(residuals(model1),type = c("correlation"), lag.max = 100) +labs(title = "ACF dei residui", x = "lag", y = "ACF")
+ggPacf(residuals(model1), lag.max = 100) + labs(title = "PACF dei residui", x = "lag", y = "PACF")
 
 ###manca parte arch
 
 
 
-acf(residuals(model1))
-in particolare verificare la significativita` della media, 
-
-la presenza di autocorrelazione e la presenza di effetti ARCH.
 
 
 
 
-Costruiamo l’istogramma dei rendimenti logaritmici,
-il qqnorm, gli indici di curtosi e di asimmetria. 
 
 
-
-
-ggplot(jap.data$lret, aes(x = lret, y = ..density..))
-
-+ geom_histogram(bins = 50, col = "white", fill = "red", alpha = 0.5) 
-+geom_density(col = 3) +  theme(axis.text.x = element_text(angle = 0, hjust = 1, size = 16), axis.text.y = element_text(size = 16), title = element_text(size = 20)) + labs(title = "Histogram for DJI log-returns", x = "DJI log-returns", y = "Frequency")
