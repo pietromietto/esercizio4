@@ -188,9 +188,12 @@ ggplot(data=jap.data, aes(x = lret)) + geom_histogram(aes(y=..density..),bins = 
   labs(title = "Confronto tra densità empirica  e teorica (ged)", x = "rendimenti", y = "Frequenza") + 
   stat_function(fun=dged,args=list(mean=fit.ged$par[1],sd=fit.ged$par[2],nu=fit.ged$par[3]),col=2,alpha=0.7,lwd=1)
 # confronto ora la funzione di ripartizione empirica con la vera funzione di ripartizione
-plot(sort(lret),(1:N/N),main="Probabilita'",col="steelblue4")
-curve(pged(x,mean=fit.ged$par[1],sd=fit.ged$par[2],nu=fit.ged$par[3]),add=T,col=2,lwd=2)
-
+ggplot(data=jap.data, aes(x=sort(lret))) + 
+  geom_point(aes(x=sort(lret),y=(1:N/N)), col="steelblue", alpha = 1.4)+
+  stat_function(fun=pged,args=list(mean=fit.ged$par[1],sd=fit.ged$par[2],nu=fit.ged$par[3]),col=2,alpha=0.7,lwd=1)+
+  labs(title="Confronto tra CDF empirica e teorica (ged)", x="rendimenti", y="frequenze cumulate ") +
+  theme(axis.text.x=element_text(angle=0, hjust=1, size=9), axis.text.y=element_text(size = 9), 
+        title = element_text(size=15))
 # Punto 4
 #verificare l’ipotesi della presenza di asimmetria della distribuzione Skew Student–t
 
